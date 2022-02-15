@@ -402,6 +402,11 @@
             } ]), r);
         }, {} ]
     }, {}, [ 1 ]);
+    window.addEventListener("load", (function() {
+        if (document.querySelector(".wrapper")) setTimeout((function() {
+            document.querySelector(".wrapper").classList.add("_loaded");
+        }), 200);
+    }));
     const choice = document.querySelector(".choice");
     const game = document.querySelector(".game");
     const darts = document.querySelector(".darts");
@@ -415,30 +420,10 @@
     let unlock = true;
     document.addEventListener("click", (e => {
         const targetElement = e.target;
-        if (targetElement.closest(".choice__item_mini")) {
-            choice.classList.add("_hide");
-            game.classList.remove("_hide");
-            document.querySelector(".header-main__item_home").style.display = "block";
-            main.classList.add("_bg-game");
-        }
-        if (targetElement.closest(".header-main__button")) {
-            if (!game.classList.contains("_hide")) {
-                game.classList.add("_hide");
-                choice.classList.remove("_hide");
-                document.querySelector(".header-main__item_home").style.display = "none";
-                main.classList.remove("_bg-game");
-            }
-            if (!darts.classList.contains("_hide")) {
-                darts.classList.add("_hide");
-                choice.classList.remove("_hide");
-                document.querySelector(".header-main__item_home").style.display = "none";
-            }
-            if (!shop.classList.contains("_hide")) {
-                shop.classList.add("_hide");
-                bingo.classList.remove("_visible");
-                choice.classList.remove("_hide");
-                document.querySelector(".header-main__item_home").style.display = "none";
-            }
+        if (targetElement.closest(".header-main__item_home")) if (!darts.classList.contains("_hide")) {
+            darts.classList.add("_hide");
+            choice.classList.remove("_hide");
+            document.querySelector(".header-main__item_home").style.display = "none";
         }
         if (targetElement.closest(".choice__item_darts")) {
             choice.classList.add("_hide");
@@ -446,7 +431,7 @@
             document.querySelector(".header-main__item_home").style.display = "block";
         }
         if (targetElement.closest(".darts__body-target")) {
-            let delay = 3e3;
+            let delay = 2500;
             if (unlock) {
                 body_lock(delay);
                 setTimeout(moveDartNull, 500);
@@ -466,6 +451,14 @@
         } else if (targetElement.closest(".darts__btn-no")) {
             darts.classList.add("_hide");
             choice.classList.remove("_hide");
+            count = 3;
+            dart_box.forEach((el => {
+                el.style.opacity = "1";
+            }));
+            dart.style.top = `260px`;
+            dart.style.left = `-200px`;
+            dart.style.transitionDuration = "0.1s";
+            dart_img.style.transform = "rotateY(0deg)";
             document.querySelector(".header-main__item_home").style.display = "none";
             document.querySelector(".darts__try").classList.add("_hide");
         }
