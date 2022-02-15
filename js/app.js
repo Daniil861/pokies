@@ -407,6 +407,11 @@
             document.querySelector(".wrapper").classList.add("_loaded");
         }), 200);
     }));
+    window.addEventListener("load", (function() {
+        if (document.querySelector("body")) setTimeout((function() {
+            document.querySelector("body").classList.add("_loaded");
+        }), 200);
+    }));
     const choice = document.querySelector(".choice");
     const game = document.querySelector(".game");
     const darts = document.querySelector(".darts");
@@ -415,7 +420,13 @@
     const dart_img = document.querySelector(".darts__dart-single img");
     const shop = document.querySelector(".shop");
     const bingo = document.querySelector(".game__bingo");
+    const preloader = document.querySelector(".preloader");
+    document.querySelector(".acces-preloader");
     const dart_box = document.querySelectorAll(".darts__dart");
+    if (sessionStorage.getItem("preloader")) {
+        if (document.querySelector(".preloader")) document.querySelector(".preloader").classList.add("_hide");
+        document.querySelector(".wrapper").classList.add("_visible");
+    }
     let count = 3;
     let unlock = true;
     document.addEventListener("click", (e => {
@@ -425,13 +436,17 @@
             choice.classList.remove("_hide");
             document.querySelector(".header-main__item_home").style.display = "none";
         }
+        if (targetElement.closest(".acces-preloader__play")) {
+            preloader.classList.add("_hide");
+            sessionStorage.setItem("preloader", true);
+        }
         if (targetElement.closest(".choice__item_darts")) {
             choice.classList.add("_hide");
             darts.classList.remove("_hide");
             document.querySelector(".header-main__item_home").style.display = "block";
         }
         if (targetElement.closest(".darts__body-target")) {
-            let delay = 2500;
+            let delay = 3e3;
             if (unlock) {
                 body_lock(delay);
                 setTimeout(moveDartNull, 500);

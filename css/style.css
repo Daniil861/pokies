@@ -36,6 +36,13 @@
   font-weight: 400;
   font-style: normal;
 }
+@font-face {
+  font-family: Viga;
+  font-display: swap;
+  src: url("../fonts/Viga-Regular.woff2") format("woff2"), url("../fonts/Viga-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
 * {
   padding: 0px;
   margin: 0px;
@@ -110,9 +117,18 @@ h6 {
   font-size: inherit;
 }
 
+body {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease 0s;
+}
 .lock body {
   overflow: hidden;
   touch-action: none;
+}
+body._loaded {
+  opacity: 1;
+  visibility: visible;
 }
 
 .wrapper {
@@ -120,12 +136,6 @@ h6 {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-}
-.wrapper._loaded {
-  opacity: 1;
-  visibility: visible;
 }
 .wrapper > main {
   flex: 1 1 auto;
@@ -154,6 +164,111 @@ h6 {
 
 [class*=-ibg_contain] img {
   object-fit: contain;
+}
+
+.preloader {
+  background: url("../img/main/bg_pre.jpg") 0 0/cover no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease 0s;
+  font-family: Viga;
+  text-transform: uppercase;
+}
+.preloader._hide {
+  top: -50px;
+  display: none;
+}
+.acces-preloader {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+.acces-preloader._hide {
+  top: -50px;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+}
+@supports (padding-bottom: clamp( 1.25rem , 0.95rem  +  1.5vw , 2.75rem )) {
+  .acces-preloader__text {
+    padding-bottom: clamp( 1.25rem , 0.95rem  +  1.5vw , 2.75rem );
+  }
+}
+@supports not (padding-bottom: clamp( 1.25rem , 0.95rem  +  1.5vw , 2.75rem )) {
+  .acces-preloader__text {
+    padding-bottom: calc(1.25rem + 1.5 * (100vw - 20rem) / 100);
+  }
+}
+.acces-preloader__terms {
+  color: #006cff;
+}
+.acces-preloader__privacy {
+  color: #4663c1;
+}
+.acces-preloader__play:active {
+  transform: translateY(2px);
+}
+.acces-preloader__play img {
+  max-width: 100%;
+}
+@media (max-width: 1000px) {
+  .acces-preloader__play img {
+    max-width: 60%;
+  }
+}
+
+.text-pre {
+  line-height: 1.25rem;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+@supports (font-size: clamp( 0.875rem , 0.8rem  +  0.375vw , 1.25rem )) {
+  .text-pre {
+    font-size: clamp( 0.875rem , 0.8rem  +  0.375vw , 1.25rem );
+  }
+}
+@supports not (font-size: clamp( 0.875rem , 0.8rem  +  0.375vw , 1.25rem )) {
+  .text-pre {
+    font-size: calc(0.875rem + 0.375 * (100vw - 20rem) / 100);
+  }
+}
+.text-pre span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.text-pre_list {
+  padding-left: 20px;
+  position: relative;
+}
+@supports (font-size: clamp( 0.875rem , 0.8rem  +  0.375vw , 1.25rem )) {
+  .text-pre_list {
+    font-size: clamp( 0.875rem , 0.8rem  +  0.375vw , 1.25rem );
+  }
+}
+@supports not (font-size: clamp( 0.875rem , 0.8rem  +  0.375vw , 1.25rem )) {
+  .text-pre_list {
+    font-size: calc(0.875rem + 0.375 * (100vw - 20rem) / 100);
+  }
+}
+.text-pre_list::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #fff;
 }
 
 .main {
@@ -293,7 +408,7 @@ h6 {
 }
 .game__bingo {
   position: absolute;
-  top: 0px;
+  top: -120px;
   left: 0px;
   transform: scale(0.5);
   opacity: 0;
@@ -499,7 +614,7 @@ h6 {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -523,6 +638,7 @@ h6 {
 }
 .darts__text {
   grid-column-start: span 2;
+  white-space: nowrap;
 }
 .darts__btn {
   border: 1px solid #ffc000;
