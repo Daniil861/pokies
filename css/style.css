@@ -332,8 +332,18 @@ h6 {
   text-align: center;
   height: calc(24vh - 0.25rem);
 }
+@media (max-height: 21.875em) {
+  .game__item {
+    height: calc(22vh - 0.25rem);
+  }
+}
 .game__item img {
   max-width: 55%;
+}
+@media (max-height: 21.875em) {
+  .game__item img {
+    max-width: 50%;
+  }
 }
 .game__control {
   width: 100%;
